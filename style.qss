@@ -1,0 +1,11 @@
+QMainWindow {
+text-align:center;
+v-align:middle;
+background: #7add00;
+}
+QPushButton {
+    border-radius:10px;
+    background-color:blue;
+    border:solid 1px #ffffff;
+    color:white;
+}
