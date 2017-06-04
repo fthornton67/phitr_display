@@ -47,5 +47,4 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 RESOURCES += phitr_resources.qrc
-DISTFILES += \
-    style.qss
+

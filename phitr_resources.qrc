@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/forms">
         <file>attendeeframe.ui</file>
+	</qresource>
+<qresource prefix="/style">
+	<file>phitr_style.qss</file>
     </qresource>
 </RCC>

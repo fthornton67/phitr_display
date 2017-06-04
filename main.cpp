@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     gridMap = new QList<QList<int>*>;
     gridMap = initGridMap();
 
-    QFile styleFile("/home/fthornton67/phitr/PhitrScreen/style.qss");
+    QFile styleFile(":/style/phitr_style.qss");
     styleFile.open(QFile::ReadOnly);
     QString StyleSheet = QLatin1String(styleFile.readAll());
 
