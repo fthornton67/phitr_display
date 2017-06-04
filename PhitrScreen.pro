@@ -31,6 +31,8 @@ SOURCES += main.cpp\
     attendee.cpp \
     btdevice.cpp \
     heartrate.cpp \
+    device.cpp \
+    service.cpp \
     deviceinfo.cpp \
     devicethread.cpp \
     phitrdevicelist.cpp
@@ -41,10 +43,14 @@ HEADERS  += mainwindow.h \
     attendee.h \
     btdevice.h \
     heartrate.h \
+    device.h \
     deviceinfo.h \
     devicethread.h \
-    phitrdevicelist.h
+    phitrdevicelist.h \
+    service.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    device.ui \
+    service.ui
 RESOURCES += phitr_resources.qrc
 

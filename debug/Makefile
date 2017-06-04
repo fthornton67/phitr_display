@@ -55,12 +55,16 @@ SOURCES       = ../main.cpp \
 		../attendee.cpp \
 		../btdevice.cpp \
 		../heartrate.cpp \
+		../device.cpp \
+		../service.cpp \
 		../deviceinfo.cpp \
 		../devicethread.cpp \
 		../phitrdevicelist.cpp qrc_phitr_resources.cpp \
 		moc_mainwindow.cpp \
 		moc_heartrate.cpp \
-		moc_deviceinfo.cpp
+		moc_device.cpp \
+		moc_deviceinfo.cpp \
+		moc_service.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		flowlayout.o \
@@ -68,13 +72,17 @@ OBJECTS       = main.o \
 		attendee.o \
 		btdevice.o \
 		heartrate.o \
+		device.o \
+		service.o \
 		deviceinfo.o \
 		devicethread.o \
 		phitrdevicelist.o \
 		qrc_phitr_resources.o \
 		moc_mainwindow.o \
 		moc_heartrate.o \
-		moc_deviceinfo.o
+		moc_device.o \
+		moc_deviceinfo.o \
+		moc_service.o
 DIST          = /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt58/5.8/gcc_64/mkspecs/common/unix.conf \
 		../../../../Qt58/5.8/gcc_64/mkspecs/common/linux.conf \
@@ -247,15 +255,19 @@ DIST          = /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/spec_pre.p
 		../attendee.h \
 		../btdevice.h \
 		../heartrate.h \
+		../device.h \
 		../deviceinfo.h \
 		../devicethread.h \
-		../phitrdevicelist.h ../main.cpp \
+		../phitrdevicelist.h \
+		../service.h ../main.cpp \
 		../mainwindow.cpp \
 		../flowlayout.cpp \
 		../attendeegrid.cpp \
 		../attendee.cpp \
 		../btdevice.cpp \
 		../heartrate.cpp \
+		../device.cpp \
+		../service.cpp \
 		../deviceinfo.cpp \
 		../devicethread.cpp \
 		../phitrdevicelist.cpp
@@ -267,7 +279,7 @@ TARGET        = PhitrScreen
 first: all
 ####### Build rules
 
-$(TARGET): /home/parallels/_dev/Qt58/5.8/gcc_64/lib/libQt5UiTools.a ui_mainwindow.h $(OBJECTS)  
+$(TARGET): /home/parallels/_dev/Qt58/5.8/gcc_64/lib/libQt5UiTools.a ui_mainwindow.h ui_device.h ui_service.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../PhitrScreen.pro /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/linux-g++/qmake.conf /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/spec_pre.prf \
@@ -639,9 +651,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../phitr_resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../mainwindow.h ../flowlayout.h ../attendeegrid.h ../attendee.h ../btdevice.h ../heartrate.h ../deviceinfo.h ../devicethread.h ../phitrdevicelist.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../main.cpp ../mainwindow.cpp ../flowlayout.cpp ../attendeegrid.cpp ../attendee.cpp ../btdevice.cpp ../heartrate.cpp ../deviceinfo.cpp ../devicethread.cpp ../phitrdevicelist.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../mainwindow.h ../flowlayout.h ../attendeegrid.h ../attendee.h ../btdevice.h ../heartrate.h ../device.h ../deviceinfo.h ../devicethread.h ../phitrdevicelist.h ../service.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../main.cpp ../mainwindow.cpp ../flowlayout.cpp ../attendeegrid.cpp ../attendee.cpp ../btdevice.cpp ../heartrate.cpp ../device.cpp ../service.cpp ../deviceinfo.cpp ../devicethread.cpp ../phitrdevicelist.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../mainwindow.ui ../device.ui ../service.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -680,9 +692,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_heartrate.cpp moc_deviceinfo.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_heartrate.cpp moc_device.cpp moc_deviceinfo.cpp moc_service.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_heartrate.cpp moc_deviceinfo.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_heartrate.cpp moc_device.cpp moc_deviceinfo.cpp moc_service.cpp
 moc_mainwindow.cpp: /home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMainWindow \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -787,6 +799,24 @@ moc_mainwindow.cpp: /home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMain
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
 		../mainwindow.h \
 		moc_predefs.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc
@@ -895,6 +925,165 @@ moc_heartrate.cpp: ../deviceinfo.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc
 	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/linux-g++ -I/media/psf/Home/_ubuntuDev/Phitr/phitr_display -I/home/parallels/_dev/Qt58/5.8/gcc_64/include -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtUiTools -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQuick -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQml -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtNetwork -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../heartrate.h -o moc_heartrate.cpp
 
+moc_device.cpp: ui_mainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QVariant \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvariant.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtcore-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsysinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlogging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qflags.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypetraits.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmutex.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnumeric.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qversiontagging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrefcount.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnamespace.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qarraydata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstring.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qchar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qalgorithms.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiterator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpair.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregexp.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmetatype.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdebug.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhash.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtextstream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiodevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlocale.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qshareddata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvector.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpoint.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qset.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QAction \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaction.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtgui-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qkeysequence.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmargins.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrect.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsize.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpalette.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcolor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgb.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgba64.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qbrush.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qmatrix.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpolygon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qregion.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdatastream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qline.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtransform.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpainterpath.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qimage.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixelformat.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfont.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcursor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurlquery.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfile.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfiledevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvector2d.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QApplication \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qeventloop.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QHeaderView \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMainWindow \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStatusBar \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QWidget \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothlocaldevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QObject \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QList \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QString \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothHostInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothhostinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothAddress \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothaddress.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QByteArray \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QMetaType \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QDialog \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdialog.h \
+		../device.h \
+		moc_predefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc
+	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/linux-g++ -I/media/psf/Home/_ubuntuDev/Phitr/phitr_display -I/home/parallels/_dev/Qt58/5.8/gcc_64/include -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtUiTools -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQuick -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQml -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtNetwork -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../device.h -o moc_device.cpp
+
 moc_deviceinfo.cpp: /home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QString \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstring.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qchar.h \
@@ -954,14 +1143,168 @@ moc_deviceinfo.cpp: /home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QString 
 		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc
 	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/linux-g++ -I/media/psf/Home/_ubuntuDev/Phitr/phitr_display -I/home/parallels/_dev/Qt58/5.8/gcc_64/include -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtUiTools -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQuick -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQml -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtNetwork -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../deviceinfo.h -o moc_deviceinfo.cpp
 
+moc_service.cpp: ui_mainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QVariant \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvariant.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtcore-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsysinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlogging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qflags.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypetraits.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmutex.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnumeric.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qversiontagging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrefcount.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnamespace.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qarraydata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstring.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qchar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qalgorithms.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiterator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpair.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregexp.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmetatype.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdebug.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhash.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtextstream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiodevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlocale.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qshareddata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvector.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpoint.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qset.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QAction \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaction.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtgui-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qkeysequence.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmargins.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrect.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsize.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpalette.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcolor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgb.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgba64.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qbrush.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qmatrix.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpolygon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qregion.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdatastream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qline.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtransform.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpainterpath.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qimage.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixelformat.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfont.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcursor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurlquery.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfile.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfiledevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvector2d.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QApplication \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qeventloop.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QHeaderView \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMainWindow \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStatusBar \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QWidget \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QDialog \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdialog.h \
+		../service.h \
+		moc_predefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc
+	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/parallels/_dev/Qt58/5.8/gcc_64/mkspecs/linux-g++ -I/media/psf/Home/_ubuntuDev/Phitr/phitr_display -I/home/parallels/_dev/Qt58/5.8/gcc_64/include -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtUiTools -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQuick -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtQml -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtNetwork -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth -I/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../service.h -o moc_service.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ui_mainwindow.h ui_device.h ui_service.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
+	-$(DEL_FILE) ui_mainwindow.h ui_device.h ui_service.h
 ui_mainwindow.h: ../mainwindow.ui \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic
 	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic ../mainwindow.ui -o ui_mainwindow.h
+
+ui_device.h: ../device.ui \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic
+	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic ../device.ui -o ui_device.h
+
+ui_service.h: ../service.ui \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic
+	/home/parallels/_dev/Qt58/5.8/gcc_64/bin/uic ../service.ui -o ui_service.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -1078,6 +1421,24 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
 		../attendeegrid.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QGridLayout \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qgridlayout.h \
@@ -1089,7 +1450,6 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QLayout \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QRect \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStyle \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QApplication \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qapplication.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1109,7 +1469,6 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QtCoreDepends \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractanimation.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractproxymodel.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractstate.h \
@@ -1151,7 +1510,6 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhistorystate.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qidentityproxymodel.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qisenum.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qjsonarray.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qjsonvalue.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qjsondocument.h \
@@ -1179,7 +1537,6 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvariantanimation.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qqueue.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qreadwritelock.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qresource.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsavefile.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qscopedvaluerollback.h \
@@ -1309,20 +1666,9 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtextdocumentwriter.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtextlist.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtexttable.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtguiversion.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QtWidgets \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QtWidgetsDepends \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaccessiblewidget.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaction.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
@@ -1380,8 +1726,6 @@ main.o: ../main.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qkeysequenceedit.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlabel.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlcdnumber.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmdiarea.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmdisubwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmenu.h \
@@ -1581,6 +1925,24 @@ mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
 		ui_mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QVariant \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QAction \
@@ -1597,21 +1959,6 @@ mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QHeaderView \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qheaderview.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStatusBar \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QWidget
@@ -2286,6 +2633,339 @@ heartrate.o: ../heartrate.cpp ../heartrate.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qendian.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heartrate.o ../heartrate.cpp
 
+device.o: ../device.cpp ../device.h \
+		ui_mainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QVariant \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvariant.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtcore-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsysinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlogging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qflags.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypetraits.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmutex.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnumeric.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qversiontagging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrefcount.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnamespace.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qarraydata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstring.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qchar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qalgorithms.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiterator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpair.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregexp.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmetatype.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdebug.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhash.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtextstream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiodevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlocale.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qshareddata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvector.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpoint.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qset.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QAction \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaction.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtgui-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qkeysequence.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmargins.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrect.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsize.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpalette.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcolor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgb.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgba64.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qbrush.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qmatrix.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpolygon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qregion.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdatastream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qline.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtransform.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpainterpath.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qimage.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixelformat.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfont.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcursor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurlquery.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfile.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfiledevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvector2d.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QApplication \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qeventloop.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QHeaderView \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMainWindow \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStatusBar \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QWidget \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothlocaldevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QObject \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QList \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QString \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothHostInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothhostinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothAddress \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothaddress.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QByteArray \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QMetaType \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QDialog \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdialog.h \
+		../service.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMenu \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmenu.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QDebug
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o device.o ../device.cpp
+
+service.o: ../service.cpp ../service.h \
+		ui_mainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QVariant \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvariant.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qconfig.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtcore-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsysinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlogging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qflags.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtypetraits.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmutex.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnumeric.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qversiontagging.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrefcount.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qnamespace.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qarraydata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstring.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qchar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qalgorithms.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiterator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpair.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringlist.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregexp.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmetatype.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdebug.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qhash.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qtextstream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qiodevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qobject_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qlocale.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qshareddata.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qvector.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qpoint.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qset.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QAction \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qaction.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtgui-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qkeysequence.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qmargins.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qrect.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qsize.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpalette.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcolor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgb.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qrgba64.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qbrush.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qmatrix.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpolygon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qregion.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qdatastream.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qline.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtransform.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpainterpath.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qimage.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixelformat.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qpixmap.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfont.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qfontinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qcursor.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qevent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurl.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qurlquery.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfile.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qfiledevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvector2d.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qicon.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QApplication \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qeventloop.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QHeaderView \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qframe.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtGui/qvalidator.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QMainWindow \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QStatusBar \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QWidget \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothglobal.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/QDialog \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtWidgets/qdialog.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothaddress.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QByteArray \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QString \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QMetaType \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothservicediscoveryagent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QObject \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothServiceInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothserviceinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothUuid \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothuuid.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QtGlobal \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QUuid \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/quuid.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QDebug \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothAddress \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QList \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/QSharedPointer \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qprocess.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothlocaldevice.h \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/QBluetoothHostInfo \
+		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothhostinfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o service.o ../service.cpp
+
 deviceinfo.o: ../deviceinfo.cpp /home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothuuid.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtBluetooth/qbluetoothglobal.h \
 		/home/parallels/_dev/Qt58/5.8/gcc_64/include/QtCore/qglobal.h \
@@ -2500,8 +3180,14 @@ moc_mainwindow.o: moc_mainwindow.cpp
 moc_heartrate.o: moc_heartrate.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_heartrate.o moc_heartrate.cpp
 
+moc_device.o: moc_device.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_device.o moc_device.cpp
+
 moc_deviceinfo.o: moc_deviceinfo.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_deviceinfo.o moc_deviceinfo.cpp
+
+moc_service.o: moc_service.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_service.o moc_service.cpp
 
 ####### Install
 
