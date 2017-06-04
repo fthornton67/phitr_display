@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/forms">
+        <file>attendeeframe.ui</file>
+    </qresource>
+</RCC>

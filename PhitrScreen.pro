@@ -4,8 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-CONFIG += uitools
+QT += core gui
+QT += uitools
+QT += quick bluetooth
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PhitrScreen
@@ -25,12 +26,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    gridattendees.cpp
+    flowlayout.cpp \
+    attendeegrid.cpp \
+    attendee.cpp \
+    btdevice.cpp \
+    heartrate.cpp \
+    deviceinfo.cpp \
+    devicethread.cpp \
+    phitrdevicelist.cpp
 
 HEADERS  += mainwindow.h \
-    gridattendees.h
+    flowlayout.h \
+    attendeegrid.h \
+    attendee.h \
+    btdevice.h \
+    heartrate.h \
+    deviceinfo.h \
+    devicethread.h \
+    phitrdevicelist.h
 
 FORMS    += mainwindow.ui
-RESOURCES += resources_phitr.qrc
+RESOURCES += phitr_resources.qrc
 DISTFILES += \
     style.qss

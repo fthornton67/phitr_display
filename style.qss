@@ -1,11 +1,22 @@
 QMainWindow {
-text-align:center;
-v-align:middle;
-background: #7add00;
+    text-align:center;
+    vertical-align:middle;
+    background: #7add00;
+    border-style:none;
 }
-QPushButton {
-    border-radius:10px;
-    background-color:blue;
-    border:solid 1px #ffffff;
+#lbl_attendeeName {
+    background-color:white;
+    height:30px;
+}
+#form_attendee {
+    border-style:solid;
+    border-color:white;
+    border-width:1px;
+    margin-top:.5px;
+    margin-left:.5px;
+}
+QLCDNumber {
+    border-style:none;
     color:white;
 }
+

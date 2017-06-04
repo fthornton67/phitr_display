@@ -14,9 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QGridLayout{
-	background-color:green;
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QStatusBar" name="statusBar"/>
