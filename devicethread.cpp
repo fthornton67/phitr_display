@@ -13,26 +13,43 @@
 
 DeviceThread::DeviceThread()
 {
-
+    //printf("created dt object\n");
 }
 void DeviceThread::run()
 {
-     qDebug("hello from worker thread %d", thread()->currentThreadId());
-     qDebug("local device is %d",localDevice.isValid());
-     // Check if Bluetooth is available on this device
-     if (false && localDevice.isValid()) {
+    qDebug("device thread running\n");
+    printf("device thred running\n");
 
-         // Turn Bluetooth on
-         localDevice.powerOn();
 
-         // Read local device name
-         localDeviceName = localDevice.name();
+    qDebug("local device is %d\n",localDevice.isValid());
+    // Check if Bluetooth is available on this device
+    if (false && localDevice.isValid()) {
 
-         // Make it visible to others
-         localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
+        // Turn Bluetooth on
+        localDevice.powerOn();
 
-         // Get connected devices
-         QList<QBluetoothAddress> remotes;
-         remotes = localDevice.connectedDevices();
-     }
+        // Read local device name
+        localDeviceName = localDevice.name();
+
+        // Make it visible to others
+        localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
+
+        // Get connected devices
+        QList<QBluetoothAddress> remotes;
+        remotes = localDevice.connectedDevices();
+    }
+}
+void DeviceThread::sendTime(QString time){
+
+}
+void DeviceThread::timerHit()
+{
+    QString newTime= QDateTime::currentDateTime().toString("ddd MMMM d yy, hh:mm:ss");
+    if(m_lastTime != newTime ){
+        m_lastTime = newTime;
+        emit sendTime(newTime) ;
+    }
+}
+DeviceThread::~DeviceThread(){
+
 }

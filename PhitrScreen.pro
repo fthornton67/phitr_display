@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui
-QT += uitools
-QT += quick bluetooth
+QT += core gui uitools quick bluetooth
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PhitrScreen
@@ -35,7 +33,8 @@ SOURCES += main.cpp\
     service.cpp \
     deviceinfo.cpp \
     devicethread.cpp \
-    phitrdevicelist.cpp
+    phitrdevicelist.cpp \
+    clockthread.cpp
 
 HEADERS  += mainwindow.h \
     flowlayout.h \
@@ -47,7 +46,8 @@ HEADERS  += mainwindow.h \
     deviceinfo.h \
     devicethread.h \
     phitrdevicelist.h \
-    service.h
+    service.h \
+    clockthread.h
 
 FORMS    += mainwindow.ui \
     device.ui \
