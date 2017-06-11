@@ -59,8 +59,16 @@
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>25</height>
+            <height>45</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>KacstOffice</family>
+            <pointsize>24</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
           </property>
           <property name="text">
            <string>00:00:00</string>

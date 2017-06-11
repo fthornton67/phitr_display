@@ -11,45 +11,57 @@
 #include <qbluetoothuuid.h>
 
 
+
 DeviceThread::DeviceThread()
 {
     //printf("created dt object\n");
 }
 void DeviceThread::run()
 {
-    qDebug("device thread running\n");
-    printf("device thred running\n");
 
+    qDebug("local device is valid:%d\n",localDevice.isValid());
 
-    qDebug("local device is %d\n",localDevice.isValid());
     // Check if Bluetooth is available on this device
-    if (false && localDevice.isValid()) {
+    if (localDevice.isValid()) {
+
+        QBluetoothAddress adapterAddress;
+        adapterAddress = localDevice.address();
+
+        qDebug("Device address:%s",adapterAddress.toString());
 
         // Turn Bluetooth on
         localDevice.powerOn();
 
-        // Read local device name
-        localDeviceName = localDevice.name();
+        // qDebug() << "local device name:" << localDevice.name() << '(' << localDevice.address().toString() << ')';
 
         // Make it visible to others
         localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
 
         // Get connected devices
         QList<QBluetoothAddress> remotes;
+        QList<QBluetoothAddress> all;
         remotes = localDevice.connectedDevices();
+
+        //all = localDevice.allDevices();
+        QBluetoothDeviceDiscoveryAgent *discoveryAgent;
+        //discoveryAgent = new QBluetoothDeviceDiscoveryAgent(adapterAddress);
+        //discoveryAgent->setRemoteAddress(address);
+
+        // connect(discoveryAgent, SIGNAL(serviceDiscovered(QBluetoothServiceInfo)), this, SLOT(addService(QBluetoothServiceInfo)));
+        // connect(discoveryAgent, SIGNAL(finished()), ui->status, SLOT(hide()));
+
+        //discoveryAgent->start();
+
+
     }
 }
-void DeviceThread::sendTime(QString time){
-
-}
-void DeviceThread::timerHit()
+void DeviceThread::deviceHit()
 {
     QString newTime= QDateTime::currentDateTime().toString("ddd MMMM d yy, hh:mm:ss");
     if(m_lastTime != newTime ){
         m_lastTime = newTime;
-        emit sendTime(newTime) ;
+        //emit sendTime(newTime) ;
     }
-}
-DeviceThread::~DeviceThread(){
 
+    // emit send device
 }

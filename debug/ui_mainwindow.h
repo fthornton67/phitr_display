@@ -69,7 +69,13 @@ public:
 
         lbl_clock = new QLabel(centralWidget);
         lbl_clock->setObjectName(QStringLiteral("lbl_clock"));
-        lbl_clock->setMaximumSize(QSize(16777215, 25));
+        lbl_clock->setMaximumSize(QSize(16777215, 45));
+        QFont font;
+        font.setFamily(QStringLiteral("KacstOffice"));
+        font.setPointSize(24);
+        font.setBold(true);
+        font.setWeight(75);
+        lbl_clock->setFont(font);
         lbl_clock->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         topLayout->addWidget(lbl_clock);

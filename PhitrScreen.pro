@@ -27,27 +27,29 @@ SOURCES += main.cpp\
     flowlayout.cpp \
     attendeegrid.cpp \
     attendee.cpp \
-    btdevice.cpp \
     heartrate.cpp \
     device.cpp \
     service.cpp \
     deviceinfo.cpp \
     devicethread.cpp \
     phitrdevicelist.cpp \
-    clockthread.cpp
+    clockthread.cpp \
+    serviceinfo.cpp \
+    characteristicinfo.cpp
 
 HEADERS  += mainwindow.h \
     flowlayout.h \
     attendeegrid.h \
     attendee.h \
-    btdevice.h \
     heartrate.h \
     device.h \
     deviceinfo.h \
     devicethread.h \
     phitrdevicelist.h \
     service.h \
-    clockthread.h
+    clockthread.h \
+    serviceinfo.h \
+    characteristicinfo.h
 
 FORMS    += mainwindow.ui \
     device.ui \

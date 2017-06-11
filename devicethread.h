@@ -8,22 +8,28 @@
 #include <QBluetoothLocalDevice>
 #include <QList>
 #include "deviceinfo.h"
+#include <QVector>
 
 
 class DeviceThread : public QThread
 {
-    Q_OBJECT
+
 signals:
-    void sendTime(QString time);
+    void sendDeivce(QString deviceName,QString deviceAddress);
+    void deviceHit();
+    //void sendServices(QVector services);
 public:
     DeviceThread();
     void run();
-    ~DeviceThread();
+    //~DeviceThread();
  protected:
+    void addBtDevice(QBluetoothAddress newDevice);
     QBluetoothLocalDevice localDevice;
     QString localDeviceName;
     void timerHit();
     QString m_lastTime;
+ private:
+    QVector<QBluetoothAddress*>* m_deviceList;
 
 };
 

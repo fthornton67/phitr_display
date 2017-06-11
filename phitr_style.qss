@@ -3,6 +3,7 @@ QMainWindow {
     vertical-align:middle;
     background: #7add00;
     border-style:none;
+    margin:0px;
 }
 #lbl_attendeeName {
     background-color:white;
@@ -15,8 +16,17 @@ QMainWindow {
     margin-top:.5px;
     margin-left:.5px;
 }
+#lbl_clock {
+    background: orange;
+    color:white;
+    font-size:36px;
+    border-radius:10px;
+    text-align:center;
+    margin-right:15px;
+}
 QLCDNumber {
     border-style:none;
     color:white;
 }
+
 
