@@ -65,14 +65,14 @@ int main(int argc, char *argv[])
     ClockThread clockThread;
     QObject::connect(&clockThread, SIGNAL(sendTime(QString)), lblClock , SLOT(setText(QString)), Qt::QueuedConnection);
     clockThread.start();
-    clockThread.quit();
-    clockThread.wait();
 
     //dt->run();
 
 
     w.statusBar()->addWidget(quit_btn);
     w.showFullScreen();
+   // clockThread.quit();
+    //clockThread.wait();
 
     return a.exec();
 }
