@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     QObject::connect(&clockThread, SIGNAL(sendTime(QString)), lblClock , SLOT(setText(QString)), Qt::QueuedConnection);
     clockThread.start();
 
-    //dt->run();
+    deviceThread->run();
 
 
     w.statusBar()->addWidget(quit_btn);

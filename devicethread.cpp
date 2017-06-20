@@ -27,12 +27,10 @@ void DeviceThread::run()
         QBluetoothAddress adapterAddress;
         adapterAddress = localDevice.address();
 
-        qDebug("Device address:%s",adapterAddress.toString());
-
         // Turn Bluetooth on
         localDevice.powerOn();
 
-        // qDebug() << "local device name:" << localDevice.name() << '(' << localDevice.address().toString() << ')';
+         qDebug() << "local device name:" << localDevice.name() << '(' << localDevice.address().toString() << ')';
 
         // Make it visible to others
         localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
@@ -41,16 +39,17 @@ void DeviceThread::run()
         QList<QBluetoothAddress> remotes;
         QList<QBluetoothAddress> all;
         remotes = localDevice.connectedDevices();
-
         //all = localDevice.allDevices();
+
         QBluetoothDeviceDiscoveryAgent *discoveryAgent;
-        //discoveryAgent = new QBluetoothDeviceDiscoveryAgent(adapterAddress);
+        discoveryAgent = new QBluetoothDeviceDiscoveryAgent(adapterAddress);
+
         //discoveryAgent->setRemoteAddress(address);
 
-        // connect(discoveryAgent, SIGNAL(serviceDiscovered(QBluetoothServiceInfo)), this, SLOT(addService(QBluetoothServiceInfo)));
-        // connect(discoveryAgent, SIGNAL(finished()), ui->status, SLOT(hide()));
+        //connect(discoveryAgent, SIGNAL(serviceDiscovered(QBluetoothServiceInfo)), this, SLOT(addService(QBluetoothServiceInfo)));
+        //connect(discoveryAgent, SIGNAL(finished()), ui->status, SLOT(hide()));
 
-        //discoveryAgent->start();
+        discoveryAgent->start();
 
 
     }

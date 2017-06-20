@@ -15,7 +15,7 @@ void ClockThread::run()
 
 void ClockThread::timerHit()
 {
-    QString newTime= QDateTime::currentDateTime().toString("ddd MMMM d yy, hh:mm:ss");
+    QString newTime= QDateTime::currentDateTime().toString("hh:mm:ss:zzz");
     if(m_lastTime != newTime ){
         m_lastTime = newTime;
         emit sendTime(newTime) ;
